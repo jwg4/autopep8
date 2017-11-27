@@ -2242,6 +2242,17 @@ class Foo(object):
         with autopep8_context(line) as result:
             self.assertEqual(fixed, result)
 
+    def test_e302_add_blank_line_before_comment(self):
+        line = 'def f():\n    print 1\n\n# Comment\ndef ff():\n    print 2\n'
+        fixed = 'def f():\n    print 1\n\n\n# Comment\ndef ff():\n    print 2\n'
+        with autopep8_context(line) as result:
+            self.assertEqual(fixed, result)
+
+    def test_e302_two_blank_lines_before_comment_accepted(self):
+        line = 'def f():\n    print 1\n\n\n# Comment\ndef ff():\n    print 2\n'
+        with autopep8_context(line) as result:
+            self.assertEqual(line, result)
+
     def test_e302_bug(self):
         """Avoid creating bad syntax."""
         line = r"""def repeatable_expr():      return [bracketed_choice, simple_match, rule_ref],\
